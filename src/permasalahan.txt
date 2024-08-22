@@ -1,0 +1,17 @@
+List Permasalahan Cetak Pass Masuk GAC
+
+Case : 14 Agustus 2024
+Pass Masuk : 27
+CI : 6
+
+1. Perapihan PIC dan Vendor (2:45 -> 0:00)
+2. Penambahan PIC, Vendor, dan Working Tools (8:05 -> )
+3. Hapus row tidak terpakai dan break tiap pass masuk (3:05 -> 0:00)
+4. Memilah pass masuk FOC (0:55 -> 0:00)
+5. Capture dan cetak CI manual (1:50 Menit -> )
+
+Total Time Existing = 16:40
+
+1. Waktu
+2. Tenaga
+3. Mengurangi Human Error

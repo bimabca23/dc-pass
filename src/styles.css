@@ -1,0 +1,150 @@
+* {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.buttonGroup {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.noWrap {
+  white-space: nowrap;
+}
+
+.custom-border {
+  border-color: black !important;
+}
+
+.custom-border th,
+.custom-border td {
+  border-color: black !important;
+}
+
+.table {
+  font-size: 12px;
+  width: fit-content;
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+td p {
+  text-align: left;
+  margin: 0;
+}
+
+.table.passMasuk th {
+  background: #4c68a2;
+  color: #e9f7fb;
+}
+
+.table.passMasuk td:nth-child(1),
+.table.passMasuk td:nth-child(2) {
+  background: #9eb6e4;
+  color: #465678;
+  font-weight: bold;
+}
+
+.table.passMasuk td:nth-child(3) {
+  background: #c6daf8;
+  color: #5868a8;
+  font-weight: bold;
+}
+
+.table.passMasuk td:nth-child(4),
+.table.passMasuk td:nth-child(5),
+.table.passMasuk td:nth-child(6),
+.table.passMasuk td:nth-child(7) {
+  background: #e6eefc;
+  color: #5868a8;
+  font-weight: bold;
+}
+
+.table.passMasuk td:nth-child(1),
+.table.passMasuk th:nth-child(1) {
+  width: 1vw;
+}
+
+.table.passMasuk td:nth-child(2),
+.table.passMasuk th:nth-child(2) {
+  width: 5vw;
+}
+
+.table.passMasuk td:nth-child(3),
+.table.passMasuk th:nth-child(3) {
+  width: fit-content;
+}
+
+.table.passMasuk td:nth-child(4),
+.table.passMasuk th:nth-child(4) {
+  width: 15vw;
+}
+
+.table.passMasuk td:nth-child(5),
+.table.passMasuk th:nth-child(5) {
+  width: 15vw;
+}
+
+.table.passMasuk td:nth-child(6),
+.table.passMasuk th:nth-child(6) {
+  width: 3vw;
+}
+
+.table.passMasuk td:nth-child(7),
+.table.passMasuk th:nth-child(7) {
+  width: 3vw;
+}
+
+.table.passMasuk td:nth-child(8),
+.table.passMasuk th:nth-child(8) {
+  width: fit-content;
+}
+
+.table.passMasuk td:nth-child(9),
+.table.passMasuk th:nth-child(9) {
+  width: fit-content;
+}
+
+.table.passMasuk td:nth-child(8),
+.table.passMasuk td:nth-child(9) {
+  vertical-align: top;
+}
+
+#passMasukSecurity,
+#passMasukFoc {
+  display: none;
+}
+
+#passMasukSecurity .break,
+#passMasukFoc .break {
+  page-break-before: always;
+}
+
+.highlight {
+  background-color: yellow;
+}
+
+@media print {
+  .table {
+    font-size: 10px;
+  }
+
+  #displayArea,
+  iframe {
+    display: none;
+  }
+
+  #passMasukSecurity.print,
+  #passMasukFoc.print {
+    display: block;
+  }
+
+  .highlight {
+    background-color: transparent;
+  }
+}
