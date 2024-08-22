@@ -5,7 +5,6 @@ import "./styles.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import "moment/locale/id";
-// import jsPDF from "jspdf";
 
 interface PassMasuk {
   passId: string;
@@ -352,28 +351,82 @@ export default function App() {
     );
   };
 
-  const convertToCSV = (array: NewPassMasuk[]) => {
-    let str: string =
-      "Nama BCA Staf, Jumlah BCA Staf, Nama Vendor, Jumlah Vendor, Pass ID\r\n";
-    array.forEach((dt) => {
-      str += `", ${dt.pic.join(", ")}",${dt.pic.length},", ${dt.vendor.join(
-        ", "
-      )}",${dt.vendor.length},${dt.passId}\r\n`;
-    });
-    return str.replace(/\([^)]*\)/g, "");
+  const headerAsset = () => {
+    return (
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Pass ID</th>
+          <th>Requestor</th>
+          <th>Location</th>
+          <th>Name CI</th>
+          <th>CI Status</th>
+          <th>Tag Number</th>
+          <th>Manufacturer</th>
+          <th>Model</th>
+          <th>Serial Number</th>
+          <th>Room</th>
+          <th>Rack</th>
+        </tr>
+      </thead>
+    );
   };
 
-  const downloadCSV = () => {
-    const csvData = new Blob([convertToCSV(newPassMasukData)], {
-      type: "text/csv",
-    });
-    const csvURL = URL.createObjectURL(csvData);
-    const link = document.createElement("a");
-    link.href = csvURL;
-    link.download = `export.csv`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const bodyAsset = (data: NewAsset[], baseIndex?: number) => {
+    return (
+      <tbody>
+        {data.map((dt, index) => {
+          return (
+            <tr>
+              <td>{baseIndex ?? index + 1}</td>
+              <td>{dt.passId}</td>
+              <td>{dt.requestor}</td>
+              <td>{dt.location}</td>
+              <td>
+                {dt.item.map((item) => {
+                  return <p className="noWrap">{item.ciName}</p>;
+                })}
+              </td>
+              <td>
+                {dt.item.map((item) => {
+                  return <p className="noWrap">{item.ciStatus}</p>;
+                })}
+              </td>
+              <td>
+                {dt.item.map((item) => {
+                  return <p className="noWrap">{item.tagNumber}</p>;
+                })}
+              </td>
+              <td>
+                {dt.item.map((item) => {
+                  return <p className="noWrap">{item.manufacturer}</p>;
+                })}
+              </td>
+              <td>
+                {dt.item.map((item) => {
+                  return <p className="noWrap">{item.model}</p>;
+                })}
+              </td>
+              <td>
+                {dt.item.map((item) => {
+                  return <p className="noWrap">{item.serialNumber}</p>;
+                })}
+              </td>
+              <td>
+                {dt.item.map((item) => {
+                  return <p className="noWrap">{item.room}</p>;
+                })}
+              </td>
+              <td>
+                {dt.item.map((item) => {
+                  return <p className="noWrap">{item.rack}</p>;
+                })}
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    );
   };
 
   return (
@@ -427,7 +480,7 @@ export default function App() {
             }}
             disabled={!newPassMasukData.length}
           >
-            Pass Masuk Security
+            Pass Masuk Security ({newPassMasukData.length})
           </button>
           <button
             type="button"
@@ -439,41 +492,27 @@ export default function App() {
                 element.classList.add("print");
                 window.print();
                 element.classList.remove("print");
-
-                // const pdf = new jsPDF({
-                //   orientation: "landscape",
-                //   unit: "mm",
-                //   format: "a4",
-                // });
-
-                // const pageWidth = pdf.internal.pageSize.width - 10;
-                // const elementWidth = element.offsetWidth;
-                // const scaleX = pageWidth / elementWidth;
-
-                // pdf.html(element, {
-                //   callback: function (doc) {
-                //     doc.save("Pass Masuk FOC.pdf");
-                //   },
-                //   x: 5,
-                //   y: 5,
-                //   html2canvas: {
-                //     scale: scaleX,
-                //   },
-                // });
               }
             }}
             disabled={!newPassMasukFoc.length}
           >
-            Pass Masuk FOC
+            Pass Masuk FOC ({newPassMasukFoc.length})
           </button>
           <button
             type="button"
             style={{ marginRight: "10px" }}
-            className="btn btn-success"
-            onClick={() => downloadCSV()}
-            disabled={!newPassMasukData.length}
+            className="btn btn-primary"
+            onClick={() => {
+              const element = document.getElementById("asset");
+              if (element) {
+                element.classList.add("print");
+                window.print();
+                element.classList.remove("print");
+              }
+            }}
+            disabled={!newAssetData.length}
           >
-            Excel
+            CI Asset ({newAssetData.length})
           </button>
         </div>
         <div
@@ -607,6 +646,16 @@ export default function App() {
             <></>
           )}
         </div>
+        <div>
+          {newAssetData.length ? (
+            <table className="table asset table-bordered custom-border">
+              {headerAsset()}
+              {bodyAsset(newAssetData)}
+            </table>
+          ) : (
+            <></>
+          )}
+        </div>
       </div>
       <div id="passMasukSecurity">
         {newPassMasukData.length ? (
@@ -653,6 +702,33 @@ export default function App() {
                   <table className="table passMasuk table-bordered custom-border">
                     {headerPassMasuk()}
                     {bodyPassMasuk([dt], index + 1)}
+                  </table>
+                </>
+              );
+            })}
+          </>
+        ) : (
+          <></>
+        )}
+      </div>
+      <div id="asset">
+        {newAssetData.length ? (
+          <>
+            {newAssetData.map((dt, index) => {
+              return (
+                <>
+                  <h1
+                    style={{ fontSize: "20px", fontWeight: "bold" }}
+                    className={index > 0 ? "break" : ""}
+                  >
+                    Asset Data Center Grha Asia Cibitung
+                  </h1>
+                  <p style={{ fontSize: "10px" }}>
+                    Tanggal Asset: {moment().locale("id").format("D MMMM YYYY")}
+                  </p>
+                  <table className="table asset table-bordered custom-border">
+                    {headerAsset()}
+                    {bodyAsset([dt], index + 1)}
                   </table>
                 </>
               );
