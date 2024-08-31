@@ -1,7 +1,7 @@
 {
-  "name": "gac-pass",
-  "version": "1.0.1",
-  "description": "React and TypeScript example starter project",
+  "name": "dc-pass",
+  "version": "1.1.0",
+  "description": "React and TypeScript",
   "main": "src/index.tsx",
   "dependencies": {
     "@types/papaparse": "5.3.14",

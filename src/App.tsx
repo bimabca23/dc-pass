@@ -1,10 +1,10 @@
-import Papa from "papaparse";
-import React, { useEffect, useState } from "react";
-import moment from "moment";
-import "./styles.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
+import moment from "moment";
 import "moment/locale/id";
+import Papa from "papaparse";
+import React, { useEffect, useState } from "react";
+import "./styles.css";
 
 interface PassMasuk {
   passId: string;
@@ -140,7 +140,7 @@ export default function App() {
             pic: [...passMasuk.pic, ...newPic],
             vendor: [...passMasuk.vendor, ...newVendor],
           };
-        }
+        },
       );
       setNewPassMasukData(updatedPassMasuk);
       setListPenambahan([]);
@@ -148,7 +148,7 @@ export default function App() {
   }, [listPenambahan]);
 
   const splitCSVData = (
-    parsedData: any[]
+    parsedData: any[],
   ): { passMasuk: PassMasuk[]; asset: Asset[] } => {
     let passMasuk: PassMasuk[] = [];
     let asset: Asset[] = [];
@@ -198,11 +198,11 @@ export default function App() {
 
   const convertPassMasukFormat = (
     passIdList: string[],
-    data: PassMasuk[]
+    data: PassMasuk[],
   ): NewPassMasuk[] => {
     const formattedData: NewPassMasuk[] = passIdList.map((passId) => {
       const filteredData: PassMasuk[] = data.filter(
-        (dt) => dt.passId === passId
+        (dt) => dt.passId === passId,
       );
       return {
         passId: passId,
@@ -222,7 +222,7 @@ export default function App() {
 
   const convertAssetFormat = (
     passIdList: string[],
-    data: Asset[]
+    data: Asset[],
   ): NewAsset[] => {
     const formattedData: NewAsset[] = passIdList.map((passId) => {
       const filteredData: Asset[] = data.filter((dt) => dt.passId === passId);
@@ -344,6 +344,38 @@ export default function App() {
                   );
                 })}
               </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    );
+  };
+
+  const headerChecklist = () => {
+    return (
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Pass ID</th>
+          <th>Requestor</th>
+          <th>Purpose & Activity</th>
+          <th>Masuk</th>
+        </tr>
+      </thead>
+    );
+  };
+
+  const bodyChecklist = (data: NewPassMasuk[], baseIndex?: number) => {
+    return (
+      <tbody>
+        {data.map((dt, index) => {
+          return (
+            <tr>
+              <td>{baseIndex ?? index + 1}</td>
+              <td>{dt.passId}</td>
+              <td>{dt.requestor}</td>
+              <td>{dt.purpose.replace("\r\n", " - ")}</td>
+              <td></td>
             </tr>
           );
         })}
@@ -679,6 +711,25 @@ export default function App() {
                 </>
               );
             })}
+          </>
+        ) : (
+          <></>
+        )}
+        {newPassMasukData.length ? (
+          <>
+            <h1
+              style={{ fontSize: "20px", fontWeight: "bold" }}
+              className="break"
+            >
+              Checklist Pass Masuk Data Center Grha Asia Cibitung (Approved)
+            </h1>
+            <p style={{ fontSize: "10px" }}>
+              Tanggal Visit: {moment().locale("id").format("D MMMM YYYY")}
+            </p>
+            <table className="table checklist table-bordered custom-border">
+              {headerChecklist()}
+              {bodyChecklist(newPassMasukData)}
+            </table>
           </>
         ) : (
           <></>

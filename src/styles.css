@@ -26,6 +26,8 @@
 .table {
   font-size: 12px;
   width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .table td,
@@ -39,22 +41,31 @@ td p {
 }
 
 .table.passMasuk th,
-.table.asset th {
+.table.asset th,
+.table.checklist th {
   background: #4c68a2;
   color: #e9f7fb;
+}
+
+.table.checklist td {
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
 .table.passMasuk td:nth-child(1),
 .table.passMasuk td:nth-child(2),
 .table.asset td:nth-child(1),
-.table.asset td:nth-child(2) {
+.table.asset td:nth-child(2),
+.table.checklist td:nth-child(1),
+.table.checklist td:nth-child(2) {
   background: #9eb6e4;
   color: #465678;
   font-weight: bold;
 }
 
 .table.passMasuk td:nth-child(3),
-.table.asset td:nth-child(3) {
+.table.asset td:nth-child(3),
+.table.checklist td:nth-child(3) {
   background: #c6daf8;
   color: #5868a8;
   font-weight: bold;
@@ -64,7 +75,8 @@ td p {
 .table.passMasuk td:nth-child(5),
 .table.passMasuk td:nth-child(6),
 .table.passMasuk td:nth-child(7),
-.table.asset td:nth-child(4) {
+.table.asset td:nth-child(4),
+.table.checklist td:nth-child(4) {
   background: #e6eefc;
   color: #5868a8;
   font-weight: bold;
@@ -90,8 +102,13 @@ td p {
   width: 15vw;
 }
 
+.table.checklist td:nth-child(4) {
+  width: fit-content;
+}
+
 .table.passMasuk td:nth-child(5),
-.table.passMasuk th:nth-child(5) {
+.table.asset td:nth-child(5),
+.table.checklist th:nth-child(5) {
   width: 15vw;
 }
 
