@@ -4,6 +4,7 @@ import moment from "moment";
 import "moment/locale/id";
 import Papa from "papaparse";
 import React, { useEffect, useState } from "react";
+import packageJson from "../package.json";
 import "./styles.css";
 
 interface PassMasuk {
@@ -41,6 +42,7 @@ interface NewPassMasuk {
   clockOut: string;
   pic: string[];
   vendor: string[];
+  isSelected: boolean;
 }
 
 interface NewAsset {
@@ -71,6 +73,9 @@ export default function App() {
   const [passIdList, setPassIdList] = useState<string[]>([]);
   const [newPassMasukData, setNewPassMasukData] = useState<NewPassMasuk[]>([]);
   const [newPassMasukFoc, setNewPassMasukFoc] = useState<NewPassMasuk[]>([]);
+  const newPassMasukSelected: NewPassMasuk[] = newPassMasukData.filter(
+    (dt) => dt.isSelected
+  );
   const [newAssetData, setNewAssetData] = useState<NewAsset[]>([]);
   const [listPenambahan, setListPenambahan] = useState<Penambahan[]>([]);
   const [penambahan, setPenambahan] = useState<Penambahan>({
@@ -140,7 +145,7 @@ export default function App() {
             pic: [...passMasuk.pic, ...newPic],
             vendor: [...passMasuk.vendor, ...newVendor],
           };
-        },
+        }
       );
       setNewPassMasukData(updatedPassMasuk);
       setListPenambahan([]);
@@ -148,7 +153,7 @@ export default function App() {
   }, [listPenambahan]);
 
   const splitCSVData = (
-    parsedData: any[],
+    parsedData: any[]
   ): { passMasuk: PassMasuk[]; asset: Asset[] } => {
     let passMasuk: PassMasuk[] = [];
     let asset: Asset[] = [];
@@ -198,11 +203,11 @@ export default function App() {
 
   const convertPassMasukFormat = (
     passIdList: string[],
-    data: PassMasuk[],
+    data: PassMasuk[]
   ): NewPassMasuk[] => {
     const formattedData: NewPassMasuk[] = passIdList.map((passId) => {
       const filteredData: PassMasuk[] = data.filter(
-        (dt) => dt.passId === passId,
+        (dt) => dt.passId === passId
       );
       return {
         passId: passId,
@@ -215,6 +220,7 @@ export default function App() {
         vendor: filteredData
           .filter((dt) => dt.vendor !== "")
           .map((dt) => dt.vendor),
+        isSelected: false,
       };
     });
     return formattedData;
@@ -222,7 +228,7 @@ export default function App() {
 
   const convertAssetFormat = (
     passIdList: string[],
-    data: Asset[],
+    data: Asset[]
   ): NewAsset[] => {
     const formattedData: NewAsset[] = passIdList.map((passId) => {
       const filteredData: Asset[] = data.filter((dt) => dt.passId === passId);
@@ -279,6 +285,19 @@ export default function App() {
     return (
       <thead>
         <tr>
+          <th className="checkbox">
+            <input
+              type="checkbox"
+              className="form-check-input"
+              onChange={(e) => {
+                const updatedPassMasukData = newPassMasukData.map((item) => ({
+                  ...item,
+                  isSelected: e.target.checked,
+                }));
+                setNewPassMasukData(updatedPassMasukData);
+              }}
+            />
+          </th>
           <th>No</th>
           <th>Pass ID</th>
           <th>Requestor</th>
@@ -299,6 +318,21 @@ export default function App() {
         {data.map((dt, index) => {
           return (
             <tr>
+              <td className="checkbox">
+                <input
+                  type="checkbox"
+                  checked={dt.isSelected}
+                  className="form-check-input"
+                  onChange={(e) => {
+                    const updatedPassMasukData = [...newPassMasukData];
+                    updatedPassMasukData[index] = {
+                      ...updatedPassMasukData[index],
+                      isSelected: e.target.checked,
+                    };
+                    setNewPassMasukData(updatedPassMasukData);
+                  }}
+                />
+              </td>
               <td>{baseIndex ?? index + 1}</td>
               <td>{dt.passId}</td>
               <td>{dt.requestor}</td>
@@ -464,7 +498,7 @@ export default function App() {
   return (
     <div>
       <div id="displayArea">
-        <h1>Pass Masuk Grha Asia Cibitung</h1>
+        <h1>Pass Masuk Grha Asia Cibitung (v{packageJson.version})</h1>
         <input
           id="import"
           type="file"
@@ -529,6 +563,22 @@ export default function App() {
             disabled={!newPassMasukFoc.length}
           >
             Pass Masuk FOC ({newPassMasukFoc.length})
+          </button>
+          <button
+            type="button"
+            style={{ marginRight: "10px" }}
+            className="btn btn-primary"
+            onClick={() => {
+              const element = document.getElementById("passMasukSelected");
+              if (element) {
+                element.classList.add("print");
+                window.print();
+                element.classList.remove("print");
+              }
+            }}
+            disabled={!newPassMasukSelected.length}
+          >
+            Selected Pass Masuk ({newPassMasukSelected.length})
           </button>
           <button
             type="button"
@@ -755,6 +805,35 @@ export default function App() {
                     {bodyPassMasuk([dt], index + 1)}
                   </table>
                 </>
+              );
+            })}
+          </>
+        ) : (
+          <></>
+        )}
+      </div>
+      <div id="passMasukSelected">
+        {newPassMasukSelected.length ? (
+          <>
+            {newPassMasukData.map((dt, index) => {
+              return dt.isSelected ? (
+                <>
+                  <h1
+                    style={{ fontSize: "20px", fontWeight: "bold" }}
+                    className={index > 0 ? "break" : ""}
+                  >
+                    Pass Masuk Data Center Grha Asia Cibitung (Approved)
+                  </h1>
+                  <p style={{ fontSize: "10px" }}>
+                    Tanggal Visit: {moment().locale("id").format("D MMMM YYYY")}
+                  </p>
+                  <table className="table passMasuk table-bordered custom-border">
+                    {headerPassMasuk()}
+                    {bodyPassMasuk([dt], index + 1)}
+                  </table>
+                </>
+              ) : (
+                <></>
               );
             })}
           </>

@@ -132,19 +132,21 @@ td p {
   width: fit-content;
 }
 
-.table.passMasuk td:nth-child(8),
-.table.passMasuk td:nth-child(9) {
+.table.passMasuk td:nth-child(9),
+.table.passMasuk td:nth-child(10) {
   vertical-align: top;
 }
 
 #passMasukSecurity,
 #passMasukFoc,
+#passMasukSelected,
 #asset {
   display: none;
 }
 
 #passMasukSecurity .break,
 #passMasukFoc .break,
+#passMasukSelected .break,
 #asset .break {
   page-break-before: always;
 }
@@ -159,12 +161,15 @@ td p {
   }
 
   #displayArea,
+  th.checkbox,
+  td.checkbox,
   iframe {
     display: none;
   }
 
   #passMasukSecurity.print,
   #passMasukFoc.print,
+  #passMasukSelected.print,
   #asset.print {
     display: block;
   }
