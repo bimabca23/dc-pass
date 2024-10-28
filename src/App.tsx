@@ -393,6 +393,7 @@ export default function App() {
           <th>Pass ID</th>
           <th>Requestor</th>
           <th>Purpose & Activity</th>
+          <th>Working Tools</th>
           <th>Masuk</th>
         </tr>
       </thead>
@@ -409,6 +410,7 @@ export default function App() {
               <td>{dt.passId}</td>
               <td>{dt.requestor}</td>
               <td>{dt.purpose.replace("\r\n", " - ")}</td>
+              <td>{dt.workingTool}</td>
               <td></td>
             </tr>
           );
