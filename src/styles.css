@@ -138,6 +138,7 @@ td p {
 }
 
 #passMasukSecurity,
+#workingTools,
 #passMasukFoc,
 #passMasukSelected,
 #asset {
@@ -145,6 +146,7 @@ td p {
 }
 
 #passMasukSecurity .break,
+#workingTools .break,
 #passMasukFoc .break,
 #passMasukSelected .break,
 #asset .break {
@@ -168,6 +170,7 @@ td p {
   }
 
   #passMasukSecurity.print,
+  #workingTools.print,
   #passMasukFoc.print,
   #passMasukSelected.print,
   #asset.print {

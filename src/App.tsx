@@ -555,6 +555,22 @@ export default function App() {
             style={{ marginRight: "10px" }}
             className="btn btn-primary"
             onClick={() => {
+              const element = document.getElementById("workingTools");
+              if (element) {
+                element.classList.add("print");
+                window.print();
+                element.classList.remove("print");
+              }
+            }}
+            disabled={!newPassMasukData.length}
+          >
+            Working Tools
+          </button>
+          <button
+            type="button"
+            style={{ marginRight: "10px" }}
+            className="btn btn-primary"
+            onClick={() => {
               const element = document.getElementById("passMasukFoc");
               if (element) {
                 element.classList.add("print");
@@ -767,12 +783,11 @@ export default function App() {
         ) : (
           <></>
         )}
+      </div>
+      <div id="workingTools">
         {newPassMasukData.length ? (
           <>
-            <h1
-              style={{ fontSize: "20px", fontWeight: "bold" }}
-              className="break"
-            >
+            <h1 style={{ fontSize: "20px", fontWeight: "bold" }}>
               Checklist Pass Masuk Data Center Grha Asia Cibitung (Approved)
             </h1>
             <p style={{ fontSize: "10px" }}>
